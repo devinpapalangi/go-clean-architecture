@@ -1,0 +1,194 @@
+basePath: /api
+definitions:
+  common.NoDataResponse:
+    properties:
+      message:
+        type: string
+    type: object
+  go-clean-architecture_common.ListBaseResponse-go-clean-architecture_internal_domains_user_dto_UserResponse:
+    properties:
+      data:
+        items:
+          $ref: '#/definitions/go-clean-architecture_internal_domains_user_dto.UserResponse'
+        type: array
+      message:
+        type: string
+    type: object
+  go-clean-architecture_internal_domains_user_dto.SingleUserResponse:
+    properties:
+      data:
+        $ref: '#/definitions/go-clean-architecture_internal_domains_user_dto.UserResponse'
+      message:
+        type: string
+    type: object
+  go-clean-architecture_internal_domains_user_dto.UpsertUserRequest:
+    properties:
+      email:
+        type: string
+      name:
+        type: string
+      password:
+        type: string
+      username:
+        type: string
+    required:
+    - email
+    - name
+    - password
+    - username
+    type: object
+  go-clean-architecture_internal_domains_user_dto.UserResponse:
+    properties:
+      email:
+        type: string
+      id:
+        type: string
+      name:
+        type: string
+      username:
+        type: string
+    type: object
+externalDocs:
+  description: OpenAPI
+  url: https://swagger.io/resources/open-api/
+host: localhost:8080
+info:
+  contact:
+    email: devinanugrahp27@gmail.com
+    name: API Support
+    url: devin.com
+  description: This is a documentation for a go refreshment projects
+  termsOfService: http://swagger.io/terms/
+  title: Go Clean Architecture
+  version: "1.0"
+paths:
+  /v1/user:
+    get:
+      consumes:
+      - application/json
+      description: |-
+        Get all users data except its password
+        Description for what is this security definition being used
+      produces:
+      - application/json
+      responses:
+        "200":
+          description: OK
+          schema:
+            $ref: '#/definitions/go-clean-architecture_common.ListBaseResponse-go-clean-architecture_internal_domains_user_dto_UserResponse'
+      security:
+      - ApiKeyAuth: []
+      summary: Get all users data
+      tags:
+      - User
+    post:
+      consumes:
+      - application/json
+      description: |-
+        Create a new user by providing details
+        Description for what is this security definition being used
+      parameters:
+      - description: Add User
+        in: body
+        name: user
+        required: true
+        schema:
+          $ref: '#/definitions/go-clean-architecture_internal_domains_user_dto.UpsertUserRequest'
+      produces:
+      - application/json
+      responses:
+        "201":
+          description: Created
+          schema:
+            $ref: '#/definitions/common.NoDataResponse'
+      security:
+      - ApiKeyAuth: []
+      summary: Create a user
+      tags:
+      - User
+  /v1/user/{id}:
+    delete:
+      consumes:
+      - application/json
+      description: |-
+        Delete a user by its ID
+        Description for what is this security definition being used
+      parameters:
+      - description: User ID
+        in: path
+        name: id
+        required: true
+        type: string
+      produces:
+      - application/json
+      responses:
+        "200":
+          description: OK
+          schema:
+            $ref: '#/definitions/common.NoDataResponse'
+      security:
+      - ApiKeyAuth: []
+      summary: Delete a user
+      tags:
+      - User
+    get:
+      consumes:
+      - application/json
+      description: |-
+        Get a user by its ID
+        Description for what is this security definition being used
+      parameters:
+      - description: User ID
+        in: path
+        name: id
+        required: true
+        type: string
+      produces:
+      - application/json
+      responses:
+        "200":
+          description: OK
+          schema:
+            $ref: '#/definitions/go-clean-architecture_internal_domains_user_dto.SingleUserResponse'
+      security:
+      - ApiKeyAuth: []
+      summary: Get a user
+      tags:
+      - User
+    put:
+      consumes:
+      - application/json
+      description: |-
+        Update a user data
+        Description for what is this security definition being used
+      parameters:
+      - description: User ID
+        in: path
+        name: id
+        required: true
+        type: string
+      - description: Add User
+        in: body
+        name: user
+        required: true
+        schema:
+          $ref: '#/definitions/go-clean-architecture_internal_domains_user_dto.UpsertUserRequest'
+      produces:
+      - application/json
+      responses:
+        "200":
+          description: OK
+          schema:
+            $ref: '#/definitions/common.NoDataResponse'
+      security:
+      - ApiKeyAuth: []
+      summary: Update a user
+      tags:
+      - User
+securityDefinitions:
+  ApiKeyAuth:
+    description: Description for what is this security definition being used
+    in: header
+    name: Authorization
+    type: apiKey
+swagger: "2.0"
